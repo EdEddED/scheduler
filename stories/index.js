@@ -176,7 +176,6 @@ storiesOf("Appointment", module)
       interviewer = {interviewer.id}
       onSave = {action("onSave")}
       onCancel = {action("onCancel")}
-      setInterviewer={action("setInterviewer")} // Dummy call to be removed later
     />  
     )
   .add("Create", () =>
@@ -184,6 +183,5 @@ storiesOf("Appointment", module)
       interviewers = {interviewers}
       onSave = {action("onSave")}
       onCancel = {action("onCancel")}
-      setInterviewer={action("setInterviewer")} // Dummy call to be removed later
     />  
   )

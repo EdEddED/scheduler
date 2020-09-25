@@ -2,11 +2,20 @@ import React, { useState } from 'react'
 import InterviewerList from "components/InterviewerList";
 import Button from 'components/Button';
 
-
 export default function Form(props){
 
-  // let id = 0;
-  // if (typeof(props.interviewer) !== undefined){ id = props.interviewer };
+  const [name, setName] = useState(props.name || "");
+  const [interviewer, setInterviewer] = useState(props.interviewer || null);
+
+  function reset(){
+    setName("");
+    setInterviewer(null);
+  }
+  
+  function cancel(e){
+    reset();
+    props.onCancel();
+  }
 
   return(
     <main className="appointment__card appointment__card--create">
@@ -17,7 +26,9 @@ export default function Form(props){
             name="name"
             type="text"
             placeholder="Enter Student Name"
-            defaultValue={props.name}           
+            value={name}  
+            onChange={e => setName(e.target.value)}
+            onSubmit={event => event.preventDefault()}     
             /*
               This must be a controlled component
             */
@@ -25,13 +36,12 @@ export default function Form(props){
         </form>
         <InterviewerList 
           interviewers={props.interviewers}
-          interviewer={props.interviewer}
-          setInterviewer={props.setInterviewer} /> 
-          {/* I need to fix the setInterviewer call to be a real one soon - Both here and in stories/index.js */}
+          interviewer={interviewer}
+          setInterviewer={setInterviewer} /> 
       </section>
       <section className="appointment__card-right">
         <section className="appointment__actions">
-          <Button danger onClick={props.onCancel}>Cancel</Button>
+          <Button danger onClick={e => cancel(e)}>Cancel</Button>
           <Button confirm onClick={props.onSave}>Save</Button>
         </section>
       </section>
