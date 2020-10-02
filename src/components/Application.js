@@ -62,6 +62,20 @@ export default function Application(props) {
       .then (() => setState({...state, appointments}))
   }
 
+  function cancelInterview(id){
+    const appointment = {
+      ...state.appointments[id],
+      interview: {}
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    return axios
+      .delete(`/api/appointments/${id}`)
+      .then (() => setState({...state, appointments}))
+  }
+
 
 
   return (
@@ -92,6 +106,7 @@ export default function Application(props) {
           return(
             <Appointment
               bookInterview = {bookInterview}
+              cancelInterview = {cancelInterview}
               interviewers = {[...dayInts]}
               key = {appt.id}
               {...appt}

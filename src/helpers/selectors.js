@@ -22,29 +22,13 @@ export function getAppointmentsForDay(state, day) {
 }
 
 export function getInterview(state, interview){
-
-  if (interview === null) return null;
-  
-  const interviewer = state.interviewers[interview.interviewer];
-
-  // "2": {
-    //   id: 2,
-    //   name: "Tori Malcolm",
-    //   avatar: "https://i.imgur.com/Nmx0Qxo.png"
-    // }
-
-
-
+  if (interview){
     return {
       "student": interview.student,
-      "interviewer":{
-        "id": interviewer.id,
-        "name": interviewer.name,
-        "avatar": interviewer.avatar
-      }
+      "interviewer": state.interviewers[interview.interviewer]
     }
-
-    
+  }
+  return null;  
 }
 
 export function getInterviewersForDay (state, day) {
