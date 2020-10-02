@@ -5,22 +5,17 @@ import "components/Application.scss";
 import DayList from "./DayList";
 import Appointment from "components/Appointment";
 import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors.js";
+import useApplicationData from "hooks/useApplicationData"
 
 
 export default function Application(props) {
   
-  // const [day, setDay] = useState("Monday");
-  // const [days, setDays] = useState([]);
-
-  const [state, setState] = useState({
-    day: "Monday",
-    days: [],
-    appointments: {},
-    interviewers: {}
-  })
-
-  // const setDays = newDays => setState (prev => ({ ...prev, days: newDays }));
-  const setDay = newDay => setState ({ ...state, day: newDay });
+  const {
+    state: {state, setState},
+    setDay,
+    bookInterview,
+    cancelInterview
+  } = useApplicationData();
 
   useEffect(function(){
 
@@ -48,33 +43,6 @@ export default function Application(props) {
     );
   })
 
-  function bookInterview(id, interview) {
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview }
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-    return axios
-      .put(`/api/appointments/${id}`, appointment )
-      .then (() => setState({...state, appointments}))
-  }
-
-  function cancelInterview(id){
-    const appointment = {
-      ...state.appointments[id],
-      interview: {}
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-    return axios
-      .delete(`/api/appointments/${id}`)
-      .then (() => setState({...state, appointments}))
-  }
 
 
 
