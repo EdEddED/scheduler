@@ -26,10 +26,18 @@ const CONFIRM = "CONFIRM";
 export default function Appointment (props) {
   
   const {mode, transition, back} = useVisualMode(props.interview ? SHOW:EMPTY);
+
   
   const interviewers = props.interviewers;
-
+  
   const interview = props.interview;
+  
+  let intId;
+  if (interview){
+    intId = interview.interviewer;
+  } else {
+    intId = -1;
+  }
 
   function save(name, interviewer){
     const interview = {
@@ -56,7 +64,7 @@ export default function Appointment (props) {
       {mode === SHOW && (
         <Show
           student={interview.student}
-          interviewer={interview.interviewer}
+          interviewer={interviewers[intId]}
           onDelete={() => transition(CONFIRM)}
           onEdit={() => transition(EDIT)}
         />
