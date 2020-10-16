@@ -55,5 +55,5 @@ export default function useApplicationData(){
     //   .then (() => setState({...state, appointments}))
   }
 
-  return {state:{state, setState}, setDay, bookInterview, cancelInterview, getSpots}
+  return {state:{state, setState}, setDay, bookInterview, cancelInterview}
 }
