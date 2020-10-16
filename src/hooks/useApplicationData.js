@@ -29,13 +29,12 @@ export default function useApplicationData(){
       setState({...state, appointments, days: all[1].data})
     }))
 
-    // return axios
-    //   .put(`/api/appointments/${id}`, appointment )
-    //   .then (() => setState({...state, appointments}))
+
   }
   
   //deletes an interview from API server, given an ID
   function cancelInterview(id){
+
     const appointment = {
       ...state.appointments[id],
       interview: {}
@@ -50,9 +49,7 @@ export default function useApplicationData(){
     ]).then((all => {
       setState({...state, appointments, days: all[1].data})
     }))
-    // return axios
-    //   .delete(`/api/appointments/${id}`)
-    //   .then (() => setState({...state, appointments}))
+    
   }
 
   return {state:{state, setState}, setDay, bookInterview, cancelInterview}
