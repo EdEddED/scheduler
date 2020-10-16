@@ -27,11 +27,13 @@ export default function Appointment (props) {
   
   const {mode, transition, back} = useVisualMode(props.interview ? SHOW:EMPTY);
 
-  
+  //localize props for ease of readability
   const interviewers = props.interviewers;
   
   const interview = props.interview;
   
+  //handle null inteviewers to avoid a crash when querying interviews that don't exist
+  //TODO: Figure out why some valid interviews still have blank names
   let intId;
   if (interview){
     intId = interview.interviewer;
@@ -39,6 +41,7 @@ export default function Appointment (props) {
     intId = -1;
   }
 
+  //triggers bookInterview, and then updates the DayList count
   function save(name, interviewer){
     const interview = {
       student: name,
@@ -50,6 +53,7 @@ export default function Appointment (props) {
       .catch(error => transition(ERROR_SAVE, true));
   }
 
+  //triggers cancelInterview, and then updates the DayList count
   function remove(){ //delete is a registered keyword 
     transition(DELETING, true);
     props.cancelInterview(props.id)

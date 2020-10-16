@@ -14,7 +14,8 @@ export default function Application(props) {
     state: {state, setState},
     setDay,
     bookInterview,
-    cancelInterview
+    cancelInterview,
+    getSpots
   } = useApplicationData();
 
   useEffect(function(){
@@ -26,7 +27,6 @@ export default function Application(props) {
     ]).then((all => {
       setState(prev => ({ ...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data}))
     }))
-    
   }, [])
 
   const dayInts = getInterviewersForDay(state, state.day);

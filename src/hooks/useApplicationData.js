@@ -11,6 +11,7 @@ export default function useApplicationData(){
   
   const setDay = newDay => setState ({ ...state, day: newDay });
   
+  //creates a new, and overwrites a existing interview on API server, given an ID
   function bookInterview(id, interview) {
     const appointment = {
       ...state.appointments[id],
@@ -26,6 +27,7 @@ export default function useApplicationData(){
       .then (() => setState({...state, appointments}))
   }
   
+  //deletes an interview from API server, given an ID
   function cancelInterview(id){
     const appointment = {
       ...state.appointments[id],
@@ -39,5 +41,15 @@ export default function useApplicationData(){
       .delete(`/api/appointments/${id}`)
       .then (() => setState({...state, appointments}))
   }
-  return {state:{state, setState}, setDay, bookInterview, cancelInterview}
+
+  //TODO - figure out where this code snippet goes.
+  function getSpots(){
+    axios.get(`/api/days`)
+      .then ((result => {
+        console.log(result.data);
+        setState(prev => ({...prev, days: result.data}))
+      }))
+  }
+
+  return {state:{state, setState}, setDay, bookInterview, cancelInterview, getSpots}
 }
