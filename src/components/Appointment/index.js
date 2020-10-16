@@ -28,17 +28,23 @@ export default function Appointment (props) {
   const {mode, transition, back} = useVisualMode(props.interview ? SHOW:EMPTY);
 
   //localize props for ease of readability
-  const interviewers = props.interviewers;
-  
+  const interviewers = props.interviewers;  
   const interview = props.interview;
   
   //handle null inteviewers to avoid a crash when querying interviews that don't exist
-  //TODO: Figure out why some valid interviews still have blank names
+  //TODO: Figure out how to get non-shallow copies of interviewers props.
   let intId;
+  let interviewer;
   if (interview){
     intId = interview.interviewer;
   } else {
     intId = -1;
+  }
+  for (let iv in props.interviewers){
+    if (iv.id === intId){
+      interviewer = iv;
+      break;
+    } 
   }
 
   //triggers bookInterview, and then updates the DayList count
@@ -68,7 +74,7 @@ export default function Appointment (props) {
       {mode === SHOW && (
         <Show
           student={interview.student}
-          interviewer={interviewers[intId]}
+          interviewer={interviewer}
           onDelete={() => transition(CONFIRM)}
           onEdit={() => transition(EDIT)}
         />

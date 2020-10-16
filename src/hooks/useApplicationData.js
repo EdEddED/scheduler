@@ -22,9 +22,16 @@ export default function useApplicationData(){
       [id]: appointment
     };
 
-    return axios
-      .put(`/api/appointments/${id}`, appointment )
-      .then (() => setState({...state, appointments}))
+    return Promise.all([
+      Promise.resolve (axios.put(`/api/appointments/${id}`, appointment )),
+      Promise.resolve (axios.get(`/api/days`))
+    ]).then((all => {
+      setState({...state, appointments, days: all[1].data})
+    }))
+
+    // return axios
+    //   .put(`/api/appointments/${id}`, appointment )
+    //   .then (() => setState({...state, appointments}))
   }
   
   //deletes an interview from API server, given an ID
@@ -37,18 +44,15 @@ export default function useApplicationData(){
       ...state.appointments,
       [id]: appointment
     };
-    return axios
-      .delete(`/api/appointments/${id}`)
-      .then (() => setState({...state, appointments}))
-  }
-
-  //TODO - figure out where this code snippet goes.
-  function getSpots(){
-    axios.get(`/api/days`)
-      .then ((result => {
-        console.log(result.data);
-        setState(prev => ({...prev, days: result.data}))
-      }))
+    return Promise.all([
+      Promise.resolve (axios.delete(`/api/appointments/${id}`)),
+      Promise.resolve (axios.get(`/api/days`))
+    ]).then((all => {
+      setState({...state, appointments, days: all[1].data})
+    }))
+    // return axios
+    //   .delete(`/api/appointments/${id}`)
+    //   .then (() => setState({...state, appointments}))
   }
 
   return {state:{state, setState}, setDay, bookInterview, cancelInterview, getSpots}
